@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GitHub search</title>
     <link rel="stylesheet" href="css/main.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 </head>
 
 <body>
@@ -17,20 +18,37 @@
 
         <!-- Content -->
         <article class="content">
-            <h1 class="content__title">Search GitHub users</h1>
+            <h1 class="content__title">Search GitHub User</h1>
 
             <!-- Search -->
-            <form class="search">
-                <input type="text" class="search__input" required placeholder="Search GitHub users">
+            <!-- @submit.prevent="doSearch(search)" -->
+            <form class="search" v-on:submit.prevent="doSearch">
+                <input v-model="search" type="text" class="search__input" required placeholder="Search GitHub users" >
                 <input type="submit" class="search__submit" value="Search">
             </form>
 
             <!-- Result -->
+
+            <div class="result" v-if="result">
+                <h2 class="result__name">{{ result.login }}</h2>
+                <img 
+                    v-bind:src="result.avatar_url" 
+                    v-bind:alt="result.login" 
+                    class="result__avatar">
+                <p class="result__bio">{{ result.bio }}</p>
+                <p>{{ result.location }}</p>
+            </div>
+            <p v-else>Please, type anything...</p>
             <!-- Error -->
-            <div class="result__error"></div>
+            <div class="result__error" v-if="error">
+                <p>{{ error }}</p>
+            </div>
         </article>
     </div>
     <script src="js/main.js"></script>
+    <script>
+        const mountedApp = app.mount('#app')
+    </script>
 </body>
 
 </html>
